@@ -76,6 +76,74 @@ namespace CRMData
             return Agencys;
         }
 
+        public List<HistoryItem> LoadHistoryItems(int agency_Id)
+        {
+            var historyItems = new List<HistoryItem>();
+
+            using (var conn = new SqlConnection(_connString))
+            {
+                conn.Open();
+
+                using (var cmd = new SqlCommand("pLoadHistoryItems", conn) { CommandType = CommandType.StoredProcedure })
+                {
+                    cmd.Parameters.Add(new SqlParameter("@AG_Id", agency_Id));
+
+                    var dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        historyItems.Add(new HistoryItem
+                        {
+                            Id = int.Parse(dr["HI_Id"].ToString()),
+                            CreationDate = DateTime.Parse(dr["HI_CreationDate"].ToString()),
+                            Notes = dr["HI_Note"].ToString(),
+                            Contact = new Contact
+                            {
+                                ContactDetailId = int.Parse(dr["CD_Id"].ToString()),
+                                Forename = dr["CD_Forname"].ToString(),
+                                Surname = dr["CD_Surname"].ToString()
+                            }
+                        });
+                    }
+                }
+            }
+
+            return historyItems;
+        }
+
+        public void SaveHistoryItem(HistoryItem historyItem)
+        {
+            using (var conn = new SqlConnection(_connString))
+            {
+                conn.Open();
+
+                using (var cmd = new SqlCommand("pSaveHistoryItems", conn) { CommandType = CommandType.StoredProcedure })
+                {
+                    cmd.Parameters.Add(new SqlParameter("@AG_Id", historyItem.ParentId));
+                    cmd.Parameters.Add(new SqlParameter("@HI_Id", historyItem.Id));
+                    cmd.Parameters.Add(new SqlParameter("@CD_Id", historyItem.Contact.ContactDetailId));
+                    cmd.Parameters.Add(new SqlParameter("@HI_Note", historyItem.Notes));
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteContactDetail(int contactId)
+        {
+            using (var conn = new SqlConnection(_connString))
+            {
+                conn.Open();
+
+                using (var cmd = new SqlCommand("pDeleteContactDetail", conn) { CommandType = CommandType.StoredProcedure })
+                {
+                    cmd.Parameters.Add(new SqlParameter("@CD_Id", contactId));
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void SaveContactDetail(Contact contact)
         {
             using (var conn = new SqlConnection(_connString))

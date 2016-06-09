@@ -7,6 +7,35 @@ body {
     -webkit-background-size: cover;
 }
 
+.loading-image {
+    background: url(../Content/Images/spiffygif_30x30.gif) no-repeat 50% 50% fixed;
+}
+
+.align-center {
+    text-align: center !important;
+}
+
+.fr {
+    float: right !important;
+}
+
+.w30 {
+    width: 30% !important;
+}
+
+.w40 {
+    width: 40% !important;
+}
+
+.w50 {
+    width: 50% !important;
+}
+
+.nopad {
+   padding:0px !important;
+}
+
+
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -29,16 +58,13 @@ body {
 }
 
 .CRMContainer {
-    margin: 0 auto;
     background-color: #ffffff;
     padding: 10px;
     padding-bottom: 30px;
-    padding-right:40px;
-    padding-left:40px;
+    padding-right: 40px;
+    padding-left: 40px;
     position: relative;
-    max-height: 650px;
-    overflow-y: auto;
-    height: 98%;
+    height: 700px;
 }
 
 .crm-page-header {
@@ -56,7 +82,7 @@ body {
     table-layout: fixed;
 }
 
-    .crm-table tr th {        
+    .crm-table tr th {
         border-top: 1px solid #b7b795;
         background-color: #e0e0d1;
         padding: 7px;
@@ -98,7 +124,7 @@ body {
 }
 
 .crm-sub-list {
-    cursor:pointer;
+    cursor: pointer;
 }
 
     .crm-sub-list ul {
@@ -125,3 +151,144 @@ body {
             .crm-sub-list li a:hover {
                 background-color: #111;
             }
+
+.history-container{
+    width:60%;
+    margin:0 auto;
+    max-height: 500px;
+    overflow:auto;
+}
+.add-history-container{
+    width:35%;
+    float:left;
+    border-right: 1px solid #ccdcff;
+}
+
+/* ============================================================================================================================
+== BUBBLE WITH A BORDER AND TRIANGLE
+** ============================================================================================================================ */
+
+/* THE SPEECH BUBBLE
+------------------------------------------------------------------------------------------------------------------------------- */
+
+.triangle-border {
+    position: relative;
+    padding: 15px;
+    margin: 1em 0 3em;
+    border: 5px solid #5a8f00;
+    color: #333;
+    background: #fff;
+    /* css3 */
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+    /* Variant : for left positioned triangle
+------------------------------------------ */
+
+    .triangle-border.left {
+        margin-left: 30px;
+    }
+
+    /* Variant : for right positioned triangle
+------------------------------------------ */
+
+    .triangle-border.right {
+        margin-right: 30px;
+    }
+
+    /* THE TRIANGLE
+------------------------------------------------------------------------------------------------------------------------------- */
+
+    .triangle-border:before {
+        content: "";
+        position: absolute;
+        bottom: -20px; /* value = - border-top-width - border-bottom-width */
+        left: 40px; /* controls horizontal position */
+        border-width: 20px 20px 0;
+        border-style: solid;
+        border-color: #5a8f00 transparent;
+        /* reduce the damage in FF3.0 */
+        display: block;
+        width: 0;
+    }
+
+    /* creates the smaller  triangle */
+    .triangle-border:after {
+        content: "";
+        position: absolute;
+        bottom: -13px; /* value = - border-top-width - border-bottom-width */
+        left: 47px; /* value = (:before left) + (:before border-left) - (:after border-left) */
+        border-width: 13px 13px 0;
+        border-style: solid;
+        border-color: #fff transparent;
+        /* reduce the damage in FF3.0 */
+        display: block;
+        width: 0;
+    }
+
+    /* Variant : top
+------------------------------------------ */
+
+    /* creates the larger triangle */
+    .triangle-border.top:before {
+        top: -20px; /* value = - border-top-width - border-bottom-width */
+        bottom: auto;
+        left: auto;
+        right: 40px; /* controls horizontal position */
+        border-width: 0 20px 20px;
+    }
+
+    /* creates the smaller  triangle */
+    .triangle-border.top:after {
+        top: -13px; /* value = - border-top-width - border-bottom-width */
+        bottom: auto;
+        left: auto;
+        right: 47px; /* value = (:before right) + (:before border-right) - (:after border-right) */
+        border-width: 0 13px 13px;
+    }
+
+    /* Variant : left
+------------------------------------------ */
+
+    /* creates the larger triangle */
+    .triangle-border.left:before {
+        top: 10px; /* controls vertical position */
+        bottom: auto;
+        left: -30px; /* value = - border-left-width - border-right-width */
+        border-width: 15px 30px 15px 0;
+        border-color: transparent #5a8f00;
+    }
+
+    /* creates the smaller  triangle */
+    .triangle-border.left:after {
+        top: 16px; /* value = (:before top) + (:before border-top) - (:after border-top) */
+        bottom: auto;
+        left: -21px; /* value = - border-left-width - border-right-width */
+        border-width: 9px 21px 9px 0;
+        border-color: transparent #fff;
+    }
+
+    /* Variant : right
+------------------------------------------ */
+
+    /* creates the larger triangle */
+    .triangle-border.right:before {
+        top: 10px; /* controls vertical position */
+        bottom: auto;
+        left: auto;
+        right: -30px; /* value = - border-left-width - border-right-width */
+        border-width: 15px 0 15px 30px;
+        border-color: transparent #5a8f00;
+    }
+
+    /* creates the smaller  triangle */
+    .triangle-border.right:after {
+        top: 16px; /* value = (:before top) + (:before border-top) - (:after border-top) */
+        bottom: auto;
+        left: auto;
+        right: -21px; /* value = - border-left-width - border-right-width */
+        border-width: 9px 0 9px 21px;
+        border-color: transparent #fff;
+    }

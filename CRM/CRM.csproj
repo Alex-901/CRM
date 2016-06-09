@@ -225,6 +225,7 @@
     <Content Include="Content\fa\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Images\grey-bg.png" />
     <Content Include="Content\Images\shapes_bkg2.jpg" />
+    <Content Include="Content\Images\spiffygif_30x30.gif" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -334,6 +335,8 @@
     </None>
     <Content Include="Views\Shared\EditorTemplates\ContactDetails.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\NewContact.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\HistoryItems.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\HistoryItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

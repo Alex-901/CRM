@@ -44,6 +44,7 @@
     <Compile Include="Agency.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="ContactDetails.cs" />
+    <Compile Include="HistoryItem.cs" />
     <Compile Include="Home.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

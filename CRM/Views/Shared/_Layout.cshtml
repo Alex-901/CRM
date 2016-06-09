@@ -24,5 +24,23 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <div id="delete-dialog" class="modal">
+        <div class="modal-content">
+            <div class="tableDiv align-center">
+                <div class="tableDivRow">
+                    <div class="tableDivCell">
+                        Are you sure you want to delete this?
+                    </div>
+                </div>
+                <div class="tableDivRow">
+                    <div class="tableDivCel">
+                        <input type="button" class="btn btn-default btn-sm delete-link-confirm" value="Yes" />
+                        <input type="button" class="btn btn-default btn-sm" value="No" onclick="hideModal('delete-dialog');" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

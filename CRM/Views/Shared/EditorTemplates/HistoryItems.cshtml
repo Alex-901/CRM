@@ -1,0 +1,24 @@
+﻿@model List<CRMEntities.HistoryItem>
+
+@{
+    int row = 0;
+}
+@foreach (var item in Model)
+{
+    row++;
+    <div class="@( row % 2 == 0 ? "triangle-border top" : "triangle-border" )">
+        <div class="tableDiv">
+            <div class="tableDivRow">
+                <div class="tableDivCell nopad">
+                    <b>Name:</b> @Html.DisplayFor(model => item.Contact.Forename)
+                </div>
+                <div class="tableDivCell nopad">
+                    <b>Date:</b> @Html.DisplayFor(model => item.CreationDate)
+                </div>
+            </div>
+        </div>
+        <div>
+            <b>Notes:</b> @Html.DisplayFor(model => item.Notes)
+        </div>
+    </div>
+}

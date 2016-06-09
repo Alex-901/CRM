@@ -87,11 +87,25 @@ namespace CRM.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoadContacts(int contactId, int agencyId)
+        public ActionResult LoadContact(int contactId, int agencyId)
         {
-            var contacts = new AgencyBusiness().LoadContactDetails(CRMEngine.Constants.Enums.ContactDetailType.Agency, agencyId).Where(x => x.ContactDetailId == contactId).FirstOrDefault();
+            var contact = new Contact();
 
-            return PartialView("~/Views/Shared/EditorTemplates/NewContact.cshtml", contacts);
+            if (contactId > 0)
+            {
+                contact = new AgencyBusiness().LoadContactDetails(CRMEngine.Constants.Enums.ContactDetailType.Agency, agencyId)
+                    .Where(x => x.ContactDetailId == contactId).FirstOrDefault();
+            }
+
+            return PartialView("~/Views/Shared/EditorTemplates/NewContact.cshtml", contact);
+        }
+
+        [HttpPost]
+        public ActionResult LoadContacts(int agencyId)
+        {
+            var contacts = new AgencyBusiness().LoadContactDetails(CRMEngine.Constants.Enums.ContactDetailType.Agency, agencyId);
+               
+            return PartialView("~/Views/Shared/EditorTemplates/ContactDetails.cshtml", contacts);
         }
 
         // GET: Agency/Delete/5
@@ -102,19 +116,58 @@ namespace CRM.Controllers
             return View("Agencies", new AgencyBusiness().LoadAgencys());
         }
 
-        [HttpPost]
         public ActionResult SaveContact(Contact contact)
         {
-            new AgencyBusiness().SaveContactDetail(contact);
+            var agencyBusiness = new AgencyBusiness();
 
-            return View("EditAgency", new AgencyBusiness().LoadAgency(contact.EntityId));
+            agencyBusiness.SaveContactDetail(contact);
+
+            var contacts = agencyBusiness.LoadContactDetails(CRMEngine.Constants.Enums.ContactDetailType.Agency, contact.EntityId);
+
+            return PartialView("~/Views/Shared/EditorTemplates/ContactDetails.cshtml", contacts);
+        }
+       
+        public ActionResult DeleteContact(int contactId, int agencyId)
+        {
+            var agencyBusiness = new AgencyBusiness();
+
+            agencyBusiness.DeleteContactDetail(contactId);
+
+            var contacts = agencyBusiness.LoadContactDetails(CRMEngine.Constants.Enums.ContactDetailType.Agency, agencyId);
+
+            return PartialView("~/Views/Shared/EditorTemplates/ContactDetails.cshtml", contacts);
         }
 
-        public ActionResult NewContact(Contact contact)
+        [HttpPost]
+        public ActionResult LoadHistoryItems(int agencyId)
         {
-            new AgencyBusiness().SaveContactDetail(contact);
+            var agencyBusiness = new AgencyBusiness();
 
-            return PartialView("~/Views/Shared/EditorTemplates/ContactDetails.cshtml", contact);
+            var historyItems = agencyBusiness.LoadHistoryItems(agencyId);
+
+            return PartialView("~/Views/Shared/EditorTemplates/HistoryItems.cshtml", historyItems);
+        }
+
+        [HttpPost]
+        public ActionResult AddHistoryItem(int agencyId)
+        {
+            var historyItem = new HistoryItem();
+
+            historyItem.Contacts = new CRMBusiness.AgencyBusiness().LoadContactDetails(CRMEngine.Constants.Enums.ContactDetailType.Agency, agencyId);
+
+            return PartialView("~/Views/Shared/EditorTemplates/HistoryItem.cshtml", historyItem);
+        }
+
+        [HttpPost]
+        public ActionResult SaveHistoryItem(HistoryItem historyItem)
+        {
+            var agencyBusiness = new AgencyBusiness();
+            
+            agencyBusiness.SaveHistoryItem(historyItem);
+
+            var historyItems = agencyBusiness.LoadHistoryItems(historyItem.ParentId);
+
+            return PartialView("~/Views/Shared/EditorTemplates/HistoryItems.cshtml", historyItems);
         }
     }
 }

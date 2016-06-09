@@ -14,5 +14,6 @@ namespace CRMEntities
         public string Name { get; set; }
         public List<Contact> Contacts { get; set; } = new List<Contact>();
         public Contact NewContact { get; set; } = new Contact();
+        public List<HistoryItem> HistoryItems { get; set; } = new List<HistoryItem>();
     }
 }

@@ -48,13 +48,17 @@
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Email</th>
-                    <th><input class="btn btn-default" type="button" value="Add" onclick="showModal('NewContact', @Model.Id);" /></th>
+                    <th><input class="btn btn-default fr" type="button" value="Add" onclick="loadContactDetail(0, @Model.Id);" /></th>
                 </tr>
             </table>
-            @Html.EditorFor(model => model.Contacts)
+            <div id="agency-contact-container"></div>
         </div>
         <div id="divHistory" class="hideMe">
             <hr />
+            <div class="add-history-container" id="add-history-container">
+            </div>
+            <div class="history-container fr" id="history-container">
+            </div>
         </div>
     </div>
 
@@ -67,8 +71,12 @@
 
 <div id="NewContact" class="modal">
     <input id="hdnId" type="hidden" />
-    <div id="contactCont" class="modal-content">
-        @*@Html.EditorFor(model => model.NewContact, "NewContact")*@
+    <div id="contact-cont" class="modal-content w40">
+    </div>
+</div>
+
+<div id="modal-cont" class="modal">
+    <div id="modal-cont-inner" class="modal-content w40">
     </div>
 </div>
 
