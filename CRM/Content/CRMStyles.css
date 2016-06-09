@@ -1,0 +1,127 @@
+﻿
+body {
+    background: url(../Content/Images/shapes_bkg2.jpg) no-repeat 50% 50% fixed;
+    background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */
+}
+
+.CRMContainer {
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 10px;
+    padding-bottom: 30px;
+    padding-right:40px;
+    padding-left:40px;
+    position: relative;
+    max-height: 650px;
+    overflow-y: auto;
+    height: 98%;
+}
+
+.crm-page-header {
+    width: 100%;
+    border-bottom: 1px solid #eeeeee;
+    margin-bottom: 10px;
+}
+
+
+.crm-table {
+    border-right: 1px solid #b7b795;
+    border-left: 1px solid #b7b795;
+    border-bottom: 1px solid #b7b795;
+    width: 100%;
+    table-layout: fixed;
+}
+
+    .crm-table tr th {        
+        border-top: 1px solid #b7b795;
+        background-color: #e0e0d1;
+        padding: 7px;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .crm-table tr td {
+        padding: 7px;
+        font-size: 12px;
+    }
+
+
+.tableDiv {
+    display: table;
+    width: 100%;
+}
+
+.tableDivRow {
+    display: table-row;
+}
+
+.tableDivCell {
+    display: table-cell;
+    padding-top: 10px;
+}
+
+.hideMe {
+    display: none;
+}
+
+.centerButton {
+    display: block;
+    margin: 0 auto;
+}
+
+.buttonContainer {
+    padding: 10px;
+}
+
+.crm-sub-list {
+    cursor:pointer;
+}
+
+    .crm-sub-list ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+    }
+
+    .crm-sub-list li {
+        float: left;
+        border-right: 1px solid #ccdcff;
+    }
+
+        .crm-sub-list li a {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+            .crm-sub-list li a:hover {
+                background-color: #111;
+            }

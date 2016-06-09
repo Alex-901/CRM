@@ -1,0 +1,119 @@
+﻿@model CRMEntities.Agency
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="crm-page-header tableDiv">
+    <div class="tableDivRow">
+        <div class="tableDivCell" style="text-align:left;">
+            <h3>@Html.DisplayFor(model => model.Name)</h3>
+        </div>
+        @Html.HiddenFor(model => model.Id)
+        <input type="hidden" value="1" id="hdnCurrentTab" />
+    </div>
+</div>
+
+
+@using (Html.BeginForm("Edit", "Agency", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="crm-sub-list">
+        <ul>
+            <li><a onclick="location.href='@Url.Action("Index")'"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a></li>
+            <li><a onclick="changeAgencyTab('1');">Agency</a></li>
+            <li><a onclick="changeAgencyTab('2');">Contacts</a></li>
+            <li><a onclick="changeAgencyTab('3');">History</a></li>
+        </ul>
+    </div>
+    <div id="divAgencyTabCont">
+        <div id="divAgencyMain" class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div id="divAgencyContacts" class="hideMe">
+            <hr />
+            <table class="crm-table">
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th><input class="btn btn-default" type="button" value="Add" onclick="showModal('NewContact', @Model.Id);" /></th>
+                </tr>
+            </table>
+            @Html.EditorFor(model => model.Contacts)
+        </div>
+        <div id="divHistory" class="hideMe">
+            <hr />
+        </div>
+    </div>
+
+    <div class="form-group buttonContainer">
+        <div class="col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div id="NewContact" class="modal">
+    <input id="hdnId" type="hidden" />
+    <div id="contactCont" class="modal-content">
+        @*@Html.EditorFor(model => model.NewContact, "NewContact")*@
+    </div>
+</div>
+
+<div id="NewContacta" class="modal">
+    <input id="hdnId" type="hidden" />
+    <div class="modal-content">
+        <h3>New contact</h3>
+        <div class="tableDiv">
+            <div class="tableDivRow">
+                <div class="tableDivCell">
+                    Forename
+                </div>
+                <div class="tableDivCell" style="width:80%;">
+                    <input type="text" id="txtForename" style="width:100%" />
+                </div>
+            </div>
+            <div class="tableDivRow">
+                <div class="tableDivCell">
+                    Surname
+                </div>
+                <div class="tableDivCell" style="width:80%;">
+                    <input type="text" id="txtSurname" style="width:100%" />
+                </div>
+            </div>
+            <div class="tableDivRow">
+                <div class="tableDivCell">
+                    Mobile
+                </div>
+                <div class="tableDivCell" style="width:80%;">
+                    <input type="text" id="txtMobile" style="width:100%" />
+                </div>
+            </div>
+            <div class="tableDivRow">
+                <div class="tableDivCell">
+                    Email
+                </div>
+                <div class="tableDivCell" style="width:80%;">
+                    <input type="text" id="txtEmail" style="width:100%" />
+                </div>
+            </div>
+        </div>
+        <div class="buttonContainer">
+            <input type="button" class="btn btn-default btn-sm" value="Close" onclick="hideModal('NewContact');" />
+            <input type="button" class="btn btn-default btn-sm" value="Save" onclick="saveAgencyContact();" />
+            <input type="hidden" id="txtContactDetailId" />
+        </div>
+    </div>
+</div>

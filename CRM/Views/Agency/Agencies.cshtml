@@ -1,0 +1,62 @@
+﻿@model IEnumerable<CRMEntities.Agency>
+
+@{
+    ViewBag.Title = "Agencies";
+}
+
+<div class="crm-page-header tableDiv">
+    <div class="tableDivRow">
+        <div class="tableDivCell" style="text-align:left;">
+            <h3>Agencies</h3>
+        </div>
+        <div class="tableDivCell" style="float:right;">
+            <input type="button" class="btn btn-default" value="Add" onclick="location.href='@Url.Action("Create", "Agency")'" />
+        </div>
+    </div>
+</div>
+<table class="crm-table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th style="width:10%;">
+
+        </th>
+        <th style="width:10%;">
+
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                <input type="button" class="btn btn-default btn-sm" value="Edit" onclick="location.href='@Url.Action("Edit", "Agency", new { id = @item.Id })'" />
+            </td>
+            <td>
+                <input type="button" class="btn btn-default btn-sm" value="Delete" onclick="showModal('deleteConf', @item.Id);" />
+            </td>
+        </tr>
+    }
+</table>
+
+<div id="deleteConf" class="modal">
+    <input id="hdnId" type="hidden" />
+    <div class="modal-content">
+        <div class="tableDiv">
+            <div class="tableDivRow">
+                <div class="tableDivCell">
+                    Are you sure you want to delete this agency?
+                </div>
+            </div>
+            <div class="tableDivRow">
+                <div class="tableDivCell">
+                    <input type="button" class="btn btn-default btn-sm" value="Yes" onclick="removeAgency();" />
+                    <input type="button" class="btn btn-default btn-sm" value="No" onclick="hideModal('deleteConf');" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
