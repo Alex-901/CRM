@@ -1,9 +1,15 @@
 ﻿var tabNames = { 1: 'divAgencyMain', 2: 'divAgencyContacts', 3: 'divHistory' }
 
 
+
 $(document).ready(function () {
     initDeleteDialog();
+    initCalendar();
 });
+
+function initCalendar() {
+    $('.calendar-container').createCalendar();
+}
 
 
 function initDeleteDialog() {

@@ -26,7 +26,7 @@ namespace CRM.Controllers
         // GET: Agency/Create
         public ActionResult Create()
         {
-            return View("CreateAgency");
+            return View();
         }
 
         // POST: Agency/Create
@@ -59,12 +59,12 @@ namespace CRM.Controllers
                 }
                 else
                 {
-                    return View("CreateAgency", model);
+                    return View(model);
                 }
             }
             catch
             {
-                return View("CreateAgency", model);
+                return View(model);
             }
         }
 
@@ -137,13 +137,12 @@ namespace CRM.Controllers
 
             return PartialView("~/Views/Shared/EditorTemplates/ContactDetails.cshtml", contacts);
         }
-
-        [HttpPost]
+        
         public ActionResult LoadHistoryItems(int agencyId)
         {
             var agencyBusiness = new AgencyBusiness();
 
-            var historyItems = agencyBusiness.LoadHistoryItems(agencyId);
+            var historyItems = agencyBusiness.LoadHistoryItems(agencyId, new DateTime(1800, 01, 01));
 
             return PartialView("~/Views/Shared/EditorTemplates/HistoryItems.cshtml", historyItems);
         }
@@ -158,6 +157,15 @@ namespace CRM.Controllers
             return PartialView("~/Views/Shared/EditorTemplates/HistoryItem.cshtml", historyItem);
         }
 
+        public JsonResult LoadCalendarHistoryItems(int agencyId, DateTime date)
+        {
+            var agencyBusiness = new AgencyBusiness();
+
+            var historyItems = agencyBusiness.LoadHistoryItems(agencyId, date);
+
+            return Json(historyItems);
+        }
+
         [HttpPost]
         public ActionResult SaveHistoryItem(HistoryItem historyItem)
         {
@@ -165,7 +173,7 @@ namespace CRM.Controllers
             
             agencyBusiness.SaveHistoryItem(historyItem);
 
-            var historyItems = agencyBusiness.LoadHistoryItems(historyItem.ParentId);
+            var historyItems = agencyBusiness.LoadHistoryItems(historyItem.ParentId, new DateTime(1800, 01, 01));
 
             return PartialView("~/Views/Shared/EditorTemplates/HistoryItems.cshtml", historyItems);
         }

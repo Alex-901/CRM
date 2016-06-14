@@ -4,7 +4,21 @@
     ViewBag.Title = "CRM";
 }
 
-<div style="text-align:center;">
-    @Html.DisplayFor(m => m.WelcomeMessage)
+<div id="WelcomeMessage" style="text-align:center;">
+    <h2>Dashboard</h2>
+    <hr />
+</div>
+
+<input id="month-data-container" type="hidden" />
+<div class="calendar-container"></div>
+
+<div onclick="hideModal('calendar-detail')" id="calendar-detail" class="modal">
+    <div class="modal-content w50">
+        Date: <label id="date"></label>
+        <br />
+        Contact: <label id="contact"></label>
+        <br />
+        Note: <label id="note"></label>
+    </div>
 </div>
 

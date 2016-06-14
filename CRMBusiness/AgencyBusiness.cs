@@ -41,7 +41,7 @@ namespace CRMBusiness
 
         public void DeleteContactDetail(int contactId) => new CRMData.CRMData(ConfigurationManager.ConnectionStrings["CRMConn"].ConnectionString).DeleteContactDetail(contactId);
 
-        public List<HistoryItem> LoadHistoryItems(int agencyId) => new CRMData.CRMData(ConfigurationManager.ConnectionStrings["CRMConn"].ConnectionString).LoadHistoryItems(agencyId);
+        public List<HistoryItem> LoadHistoryItems(int agencyId, DateTime date) => new CRMData.CRMData(ConfigurationManager.ConnectionStrings["CRMConn"].ConnectionString).LoadHistoryItems(agencyId, date);
 
         public void SaveHistoryItem(HistoryItem historyItem) => new CRMData.CRMData(ConfigurationManager.ConnectionStrings["CRMConn"].ConnectionString).SaveHistoryItem(historyItem);
     }

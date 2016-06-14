@@ -25,7 +25,7 @@ namespace CRMData
             {
                 conn.Open();
 
-                using (var cmd = new SqlCommand("pSaveAgency", conn) { CommandType = CommandType.StoredProcedure })
+                using (var cmd = new SqlCommand(Constants.StoredProcedures.SaveAgency, conn) { CommandType = CommandType.StoredProcedure })
                 {
                     cmd.Parameters.Add(new SqlParameter("Id", agency.Id));
                     cmd.Parameters.Add(new SqlParameter("Name", agency.Name));
@@ -41,7 +41,7 @@ namespace CRMData
             {
                 conn.Open();
 
-                using (var cmd = new SqlCommand("pDeleteAgency", conn) { CommandType = CommandType.StoredProcedure })
+                using (var cmd = new SqlCommand(Constants.StoredProcedures.DeleteAgency, conn) { CommandType = CommandType.StoredProcedure })
                 {
                     cmd.Parameters.Add(new SqlParameter("Id", id));
 
@@ -58,7 +58,7 @@ namespace CRMData
             {
                 conn.Open();
 
-                using (var cmd = new SqlCommand("pLoadAgencies", conn) { CommandType = CommandType.StoredProcedure })
+                using (var cmd = new SqlCommand(Constants.StoredProcedures.LoadAgencies, conn) { CommandType = CommandType.StoredProcedure })
                 {
                     var dr = cmd.ExecuteReader();
 
@@ -76,7 +76,7 @@ namespace CRMData
             return Agencys;
         }
 
-        public List<HistoryItem> LoadHistoryItems(int agency_Id)
+        public List<HistoryItem> LoadHistoryItems(int agency_Id, DateTime date)
         {
             var historyItems = new List<HistoryItem>();
 
@@ -84,9 +84,10 @@ namespace CRMData
             {
                 conn.Open();
 
-                using (var cmd = new SqlCommand("pLoadHistoryItems", conn) { CommandType = CommandType.StoredProcedure })
+                using (var cmd = new SqlCommand(Constants.StoredProcedures.LoadHistoryItems, conn) { CommandType = CommandType.StoredProcedure })
                 {
                     cmd.Parameters.Add(new SqlParameter("@AG_Id", agency_Id));
+                    cmd.Parameters.Add(new SqlParameter("@Date", date));
 
                     var dr = cmd.ExecuteReader();
 
@@ -117,7 +118,7 @@ namespace CRMData
             {
                 conn.Open();
 
-                using (var cmd = new SqlCommand("pSaveHistoryItems", conn) { CommandType = CommandType.StoredProcedure })
+                using (var cmd = new SqlCommand(Constants.StoredProcedures.SaveHistoryItems, conn) { CommandType = CommandType.StoredProcedure })
                 {
                     cmd.Parameters.Add(new SqlParameter("@AG_Id", historyItem.ParentId));
                     cmd.Parameters.Add(new SqlParameter("@HI_Id", historyItem.Id));
@@ -135,7 +136,7 @@ namespace CRMData
             {
                 conn.Open();
 
-                using (var cmd = new SqlCommand("pDeleteContactDetail", conn) { CommandType = CommandType.StoredProcedure })
+                using (var cmd = new SqlCommand(Constants.StoredProcedures.DeleteContactDetail, conn) { CommandType = CommandType.StoredProcedure })
                 {
                     cmd.Parameters.Add(new SqlParameter("@CD_Id", contactId));
 
@@ -150,7 +151,7 @@ namespace CRMData
             {
                 conn.Open();
 
-                using (var cmd = new SqlCommand("pSaveContactDetail", conn) { CommandType = CommandType.StoredProcedure })
+                using (var cmd = new SqlCommand(Constants.StoredProcedures.SaveContactDetail, conn) { CommandType = CommandType.StoredProcedure })
                 {
                     cmd.Parameters.Add(new SqlParameter("@LCD_Type", contact.ContactType.ToString()));
                     cmd.Parameters.Add(new SqlParameter("@LCD_Entity_Id", contact.EntityId));
@@ -173,7 +174,7 @@ namespace CRMData
             {
                 conn.Open();
 
-                using (var cmd = new SqlCommand("pLoadContactDetail", conn) { CommandType = CommandType.StoredProcedure })
+                using (var cmd = new SqlCommand(Constants.StoredProcedures.LoadContactDetail, conn) { CommandType = CommandType.StoredProcedure })
                 {
                     cmd.Parameters.Add(new SqlParameter("@LCD_Type", type.ToString()));
                     cmd.Parameters.Add(new SqlParameter("@LCD_Entity_Id", entityId));

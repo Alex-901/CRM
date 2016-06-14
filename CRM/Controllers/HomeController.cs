@@ -12,11 +12,11 @@ namespace CRM.Controllers
     {
         public ActionResult Index()
         {
-            var agencies = new AgencyBusiness().LoadAgencys();
+            var historyItems = new AgencyBusiness().LoadHistoryItems(0, new DateTime(1800, 01, 01)).Count();
 
             var model = new Home
             {
-                WelcomeMessage = $"Welcome to CRM. You have a total of {agencies.Count()} active agencies in the system."
+                WelcomeMessage = $"You have a total of {historyItems} history items in the system."
             };
 
             return View(model);
