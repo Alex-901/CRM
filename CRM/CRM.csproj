@@ -213,6 +213,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\calendar.css" />
     <Content Include="Content\fa\css\font-awesome.css" />
     <Content Include="Content\fa\css\font-awesome.min.css" />
     <Content Include="Content\fa\fonts\fontawesome-webfont.svg" />
@@ -222,7 +223,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -296,11 +296,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Agency\Agencies.cshtml" />
     <Content Include="Views\Agency\Create.cshtml" />
-    <Content Include="Views\Agency\EditAgency.cshtml" />
     <None Include="Service References\CRMService\CRMService.wsdl" />
     <None Include="Service References\CRMService\CRMService.xsd">
       <SubType>Designer</SubType>
@@ -312,6 +311,7 @@
     <Content Include="Views\Shared\EditorTemplates\NewContact.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\HistoryItems.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\HistoryItem.cshtml" />
+    <Content Include="Views\Agency\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

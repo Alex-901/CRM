@@ -69,21 +69,22 @@ namespace CRM.Controllers
         }
 
         // GET: Agency/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult View(int id)
         {
-            return View("EditAgency", new AgencyBusiness().LoadAgency(id));
+            return View("View", new AgencyBusiness().LoadAgency(id));
         }
-        
+
         [HttpPost]
-        public ActionResult Edit(Agency model)
+        public ActionResult View(Agency model)
         {
             if (ModelState.IsValid)
             {
-                new AgencyBusiness().SaveAgency(model);
+                var agencyBusiness = new AgencyBusiness();
 
-                return View("EditAgency", new AgencyBusiness().LoadAgency(model.Id));
+                agencyBusiness.SaveAgency(model);
             }
-            return View("EditAgency", model);
+
+            return View("View", model);
         }
 
         [HttpPost]

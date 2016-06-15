@@ -1,68 +1,88 @@
 ﻿var month = new Array();
-    month[0] = "January";
-    month[1] = "February";
-    month[2] = "March";
-    month[3] = "April";
-    month[4] = "May";
-    month[5] = "June";
-    month[6] = "July";
-    month[7] = "August";
-    month[8] = "September";
-    month[9] = "October";
-    month[10] = "November";
-    month[11] = "December";
+month[0] = "January";
+month[1] = "February";
+month[2] = "March";
+month[3] = "April";
+month[4] = "May";
+month[5] = "June";
+month[6] = "July";
+month[7] = "August";
+month[8] = "September";
+month[9] = "October";
+month[10] = "November";
+month[11] = "December";
 
 (function ($) {
     $.fn.createCalendar = function (options) {
 
         var settings = $.extend({
-            date: new Date()
+            date: new Date(),
+            format: "month"
         }, options);
 
         var currentDay = settings.date.getDate();
         var currentMonth = settings.date.getMonth();
         var currentYear = settings.date.getFullYear();
 
+        var calendarActualStart = new Date(currentYear, currentMonth, 1);
+        var calendarActualEnd = new Date(currentYear, currentMonth + 1, 0);
+
         var data = getHistoryData(settings.date);
 
         //Get the first of the selected month then find the previous monday to get the calendar start.
-        var firstDayOfCalendar = getMonday(new Date(currentYear, currentMonth, 1));
+        var firstDayOfCalendar = getMonday(calendarActualStart);
+
+        var maxRows = settings.format == "month" ? 5 : 1;
+        var maxCols = settings.format == "month" ? 6 : 6;
 
         var currentRow = 0;
-        var currentDay = new Date(firstDayOfCalendar);
-        var calendar = "<h2>" + month[currentDay.getMonth() + 1] + " - " + currentDay.getFullYear() + "</h2><input id='calender-date-pick' type='date' class='form-control' /><table>";
+        var day = new Date(firstDayOfCalendar);
+        var calendar =
+              "<div class='calendar-header tableDiv'>"
+            + "<div class='tableDivRow'>"
+            + "<div class='tableDivCell'>"
+            + "<i onclick=\"navCal('" + currentMonth + "', '" + currentYear + "', 'left')\" class='fa fa-arrow-circle-left fa-fw' aria-hidden='true'></i>"
+            + "</div>"
+            + "<div class='tableDivCell' onclick=\"showModal('date-selection')\">"
+            + month[currentMonth] + " - " + currentYear
+            + "</div>"
+            + "<div class='tableDivCell'>"
+            + "<i onclick=\"navCal('" + currentMonth + "', '" + currentYear + "', 'right')\" class='fa fa-arrow-circle-right fa-fw' aria-hidden='true'></i>"
+            + "</div>"
+            + "</div>"
+            + "</div><table>";
 
-        while (currentRow <= 5) {
+        while (currentRow <= maxRows) {
 
             var currentColumn = 0;
 
             calendar += currentRow != 0 ? "<tr>" : "<tr>"
-            + "<th>Mon</th>"
-            + "<th>Tue</th>"
-            + "<th>Wed</th>"
-            + "<th>Thu</th>"
-            + "<th>Fri</th>"
-            + "<th>Sat</th>"
-            + "<th>Sun</th>"
+            + "<th>MON</th>"
+            + "<th>TUE</th>"
+            + "<th>WED</th>"
+            + "<th>THU</th>"
+            + "<th>FRI</th>"
+            + "<th>SAT</th>"
+            + "<th>SUN</th>"
             + "</tr>";
             + "<tr>";
 
-            while (currentColumn <= 6) {
+            while (currentColumn <= maxCols) {
 
-                calendar += "<td>";
-                calendar += "<div id='date-cont'>" + currentDay.getDate().toString() + "</div>";
+                calendar += day >= calendarActualStart && day <= calendarActualEnd ? "<td>" : "<td class='outside-month'>";
+                calendar += "<div id='date-cont'>" + day.getDate().toString() + "</div>";
 
                 for (var i = 0; i < data.length; i++) {
                     var dateCheck = new Date(parseInt(data[i].CreationDate.replace("/Date(", "").replace(")/", ""), 10));
 
-                    if (dateCheck.setHours(0, 0, 0, 0) == currentDay.setHours(0, 0, 0, 0)) {
-                        calendar += "<div id='cal-inner-cont' onclick='showCalendarPopup(" + data[i].Id.toString() + ")'>" + data[i].Notes.toString() + "</div>";
+                    if (dateCheck.setHours(0, 0, 0, 0) == day.setHours(0, 0, 0, 0)) {
+                        calendar += "<div id='cal-inner-cont' onclick='showCalendarPopup(" + data[i].Id.toString() + ")'>" + data[i].Contact.Forename.toString() + " - " + data[i].Notes.toString() + "</div>";
                     }
                 }
 
                 calendar += "</td>";
 
-                currentDay.setDate(currentDay.getDate() + 1);
+                day.setDate(day.getDate() + 1);
                 currentColumn++;
             }
 
@@ -74,10 +94,6 @@
 
         this.empty();
         this.append(calendar);
-
-        $('#calender-date-pick').change(function (e) {
-            $('.calendar-container').createCalendar({ date: new Date($(this).val()) });
-        });
 
         return this;
     };
@@ -122,7 +138,7 @@ function convertCSDate(input) {
 }
 
 function getDateString(input) {
-    return input.getDate() + '/' + input.getMonth() + '/' + input.getFullYear() + ':' + input.getTime();
+    return input.getDate() + '/' + input.getMonth() + '/' + input.getFullYear() + ' - ' + input.getHours() + ':' + input.getMinutes();
 }
 
 function showCalendarPopup(id) {
@@ -137,4 +153,21 @@ function showCalendarPopup(id) {
     }
 
     showModal('calendar-detail');
+}
+
+function navCal(currentMonth, currentYear, direction) {
+
+    var nextDate;
+
+    if (currentMonth == 12 && direction == "right") {
+        nextDate = new Date(currentYear + 1, 0, 1);
+    }
+    else if (currentMonth == 0 && direction == "left") {
+        nextDate = new Date(currentYear - 1, 11, 1);
+    }
+    else {
+        nextDate = new Date(currentYear, Number(currentMonth) + (direction == "left" ? -1 : 1), 1);
+    }
+
+    $('.calendar-container').createCalendar({ date: nextDate });
 }

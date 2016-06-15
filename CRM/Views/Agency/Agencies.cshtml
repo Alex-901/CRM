@@ -33,7 +33,7 @@
                 @item.Name
             </td>
             <td>
-                <input type="button" class="btn btn-default btn-sm" value="Edit" onclick="location.href='@Url.Action("Edit", "Agency", new { id = @item.Id })'" />
+                <input type="button" class="btn btn-default btn-sm" value="View" onclick="location.href='@Url.Action("View", "Agency", new { id = @item.Id })'" />
             </td>
             <td>
                 <input type="button" class="delete-link btn btn-default btn-sm" value="Delete" onclick="removeAgency(@item.Id);" />

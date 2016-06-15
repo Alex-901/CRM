@@ -1,0 +1,37 @@
+﻿@model CRMEntities.Home
+
+@{
+    ViewBag.Title = "CRM";
+}
+
+<div id="WelcomeMessage" style="text-align:center;">
+    <h2>Dashboard</h2>
+    <hr />
+</div>
+
+<input id="month-data-container" type="hidden" />
+<div class="calendar-container"></div>
+
+<div onclick="hideModal('calendar-detail')" id="calendar-detail" class="modal">
+    <div class="modal-content w50">
+        <b>Date:</b> <span id="date"></span>
+        <br />
+        <b>Contact:</b> <span id="contact"></span>
+        <br />
+        <b>Note:</b> <span id="note"></span>
+    </div>
+</div>
+
+<div id="date-selection" class="modal">
+    <div class="modal-content w30 align-center">
+        <h4>Please select a date</h4>
+        <div class="form-group">
+            <input id="date" type="date" class="input-sm" />
+        </div>
+        <div class="form-group">
+            <input type="button" class="btn btn-default btn-sm" value="Submit" onclick="if ($('#date-selection').find('#date').val() == '') return false; $('.calendar-container').createCalendar({ date: new Date($('#date-selection').find('#date').val()) }); hideModal('date-selection');" />
+            <input type="button" class="btn btn-default btn-sm" value="Close" onclick="hideModal('date-selection')" />
+        </div>
+    </div>
+</div>
+

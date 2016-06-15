@@ -51,7 +51,7 @@ body {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; 
+    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 30%;
@@ -64,7 +64,7 @@ body {
     padding-right: 40px;
     padding-left: 40px;
     position: relative;
-    min-height:500px;
+    min-height: 500px;
 }
 
 .crm-page-header {
@@ -294,79 +294,7 @@ body {
         border-color: transparent #fff;
     }
 
-/* Start calendar styles */
-.calendar-container {
-    width: 100%;
-    padding: 10px;
-}
 
-    .calendar-container table {
-        width: 100%;
-        height: 100%;
-        table-layout: fixed;
-        margin-top: 10px;
-    }
-
-    .calendar-container th {
-        border-top: 4px solid #5a8f00;
-        border-bottom: 3px solid #5a8f00;
-        text-align: center;
-        width: 14%;
-    }
-
-        .calendar-container th:first-of-type {
-            border-left: 4px solid #5a8f00;
-        }
-
-        .calendar-container th:last-of-type {
-            border-right: 4px solid #5a8f00;
-        }
-
-    .calendar-container tr:last-of-type {
-        border-bottom: 3px solid #5a8f00;
-    }
-
-    .calendar-container td {
-        border: 1px solid #5a8f00;
-        height: 70px;
-        position: relative;
-    }
-
-        .calendar-container td:first-of-type {
-            border-left: 4px solid #5a8f00;
-        }
-
-        .calendar-container td:last-of-type {
-            border-right: 4px solid #5a8f00;
-        }
-
-        .calendar-container td #date-cont {
-            border-right: 1px solid #5a8f00;
-            border-bottom: 1px solid #5a8f00;
-            padding: 0px;
-            width: 22px;
-            text-align: center;
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            font-weight: bold;
-        }
-
-        .calendar-container td #cal-inner-cont {
-            border: 1px solid #ffff4d;
-            margin: 0.5px;
-            padding: 2px;
-            width: 80%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            float: right;
-        }
-/* End calendar styles */
-
-body {
-    padding-bottom: 20px;
-}
 
 /* Set padding to keep content from hitting the edges */
 .body-content {

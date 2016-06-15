@@ -10,7 +10,7 @@ namespace CRM.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Home()
         {
             var historyItems = new AgencyBusiness().LoadHistoryItems(0, new DateTime(1800, 01, 01)).Count();
 

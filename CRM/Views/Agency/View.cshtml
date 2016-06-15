@@ -1,7 +1,7 @@
 ﻿@model CRMEntities.Agency
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "View";
 }
 
 <div class="crm-page-header tableDiv">
@@ -14,8 +14,7 @@
     </div>
 </div>
 
-
-@using (Html.BeginForm("Edit", "Agency", FormMethod.Post))
+@using (Html.BeginForm("View", "Agency", FormMethod.Post))
 {
 
     @Html.AntiForgeryToken()
@@ -77,51 +76,5 @@
 
 <div id="modal-cont" class="modal">
     <div id="modal-cont-inner" class="modal-content w40">
-    </div>
-</div>
-
-<div id="NewContacta" class="modal">
-    <input id="hdnId" type="hidden" />
-    <div class="modal-content">
-        <h3>New contact</h3>
-        <div class="tableDiv">
-            <div class="tableDivRow">
-                <div class="tableDivCell">
-                    Forename
-                </div>
-                <div class="tableDivCell" style="width:80%;">
-                    <input type="text" id="txtForename" style="width:100%" />
-                </div>
-            </div>
-            <div class="tableDivRow">
-                <div class="tableDivCell">
-                    Surname
-                </div>
-                <div class="tableDivCell" style="width:80%;">
-                    <input type="text" id="txtSurname" style="width:100%" />
-                </div>
-            </div>
-            <div class="tableDivRow">
-                <div class="tableDivCell">
-                    Mobile
-                </div>
-                <div class="tableDivCell" style="width:80%;">
-                    <input type="text" id="txtMobile" style="width:100%" />
-                </div>
-            </div>
-            <div class="tableDivRow">
-                <div class="tableDivCell">
-                    Email
-                </div>
-                <div class="tableDivCell" style="width:80%;">
-                    <input type="text" id="txtEmail" style="width:100%" />
-                </div>
-            </div>
-        </div>
-        <div class="buttonContainer">
-            <input type="button" class="btn btn-default btn-sm" value="Close" onclick="hideModal('NewContact');" />
-            <input type="button" class="btn btn-default btn-sm" value="Save" onclick="saveAgencyContact();" />
-            <input type="hidden" id="txtContactDetailId" />
-        </div>
     </div>
 </div>

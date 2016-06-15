@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h3>Create Agency</h3>
 
 @using (Html.BeginForm()) 
 {
@@ -30,5 +30,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Client List", "Index")
+    <a onclick="location.href='@Url.Action("Index")'"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
 </div>

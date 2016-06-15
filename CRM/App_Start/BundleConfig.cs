@@ -21,11 +21,15 @@ namespace CRM
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/calendar.js",
+                      "~/Scripts/crmscripts.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/crmstyles.css",
+                      "~/Content/fa/css/font-awesome.min.css",
+                      "~/Content/calendar.css"));
         }
     }
 }
