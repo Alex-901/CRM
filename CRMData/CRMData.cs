@@ -103,6 +103,10 @@ namespace CRMData
                                 ContactDetailId = int.Parse(dr["CD_Id"].ToString()),
                                 Forename = dr["CD_Forname"].ToString(),
                                 Surname = dr["CD_Surname"].ToString()
+                            },
+                            Agency = new Agency
+                            {
+                                Name = dr["AG_Name"].ToString()
                             }
                         });
                     }
@@ -124,6 +128,7 @@ namespace CRMData
                     cmd.Parameters.Add(new SqlParameter("@HI_Id", historyItem.Id));
                     cmd.Parameters.Add(new SqlParameter("@CD_Id", historyItem.Contact.ContactDetailId));
                     cmd.Parameters.Add(new SqlParameter("@HI_Note", historyItem.Notes));
+                    cmd.Parameters.Add(new SqlParameter("@HI_CreationDate", historyItem.CreationDate));
 
                     cmd.ExecuteNonQuery();
                 }

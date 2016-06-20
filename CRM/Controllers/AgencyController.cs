@@ -109,6 +109,14 @@ namespace CRM.Controllers
             return PartialView("~/Views/Shared/EditorTemplates/ContactDetails.cshtml", contacts);
         }
 
+        [HttpPost]
+        public JsonResult LoadContactsByAgency(int agencyId)
+        {
+            var contacts = new AgencyBusiness().LoadContactDetails(CRMEngine.Constants.Enums.ContactDetailType.Agency, agencyId);
+
+            return Json(contacts);
+        }
+
         // GET: Agency/Delete/5
         public ActionResult Delete(int id)
         {
@@ -153,7 +161,12 @@ namespace CRM.Controllers
         {
             var historyItem = new HistoryItem();
 
-            historyItem.Contacts = new CRMBusiness.AgencyBusiness().LoadContactDetails(CRMEngine.Constants.Enums.ContactDetailType.Agency, agencyId);
+            historyItem.Agencies = new CRMBusiness.AgencyBusiness().LoadAgencys();
+
+            if (agencyId > 0)
+            {
+                historyItem.Contacts = new CRMBusiness.AgencyBusiness().LoadContactDetails(CRMEngine.Constants.Enums.ContactDetailType.Agency, agencyId);
+            }
 
             return PartialView("~/Views/Shared/EditorTemplates/HistoryItem.cshtml", historyItem);
         }

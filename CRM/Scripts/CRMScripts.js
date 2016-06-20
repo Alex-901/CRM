@@ -1,7 +1,5 @@
 ﻿var tabNames = { 1: 'divAgencyMain', 2: 'divAgencyContacts', 3: 'divHistory' }
 
-
-
 $(document).ready(function () {
     initDeleteDialog();
     initCalendar();
@@ -9,8 +7,8 @@ $(document).ready(function () {
 
 function initCalendar() {
     $('.calendar-container').createCalendar();
+    registerDragAndDrop();
 }
-
 
 function initDeleteDialog() {
 
@@ -218,6 +216,8 @@ function addHistoryItem() {
         data: { 'agencyId': $('#Id').val() }
     }).success(function (partialView) {
         $('#add-history-container').empty().append(partialView);
+
+        $('#add-history-container').find('#Agencies').val($('#Id').val())
     }).error(function (xhr, textStatus, error) {
         console.log(xhr.statusText);
         console.log(textStatus);
@@ -234,7 +234,8 @@ function saveHistoryItem() {
     var data = {
         'Notes': $('#add-history-container').find('#Notes').val(),
         'contact': contact,
-        'ParentId': $('#Id').val()
+        'ParentId': $('#add-history-container').find('#Agencies option:selected').val(),
+        'CreationDate': $('#add-history-container').find('#CreationDate').val(),
     };
 
     $.ajax({
@@ -243,11 +244,43 @@ function saveHistoryItem() {
         contentType: 'application/json',
         data: JSON.stringify(data)
     }).success(function (partialView) {
-        $('#history-container').empty().append(partialView);
-        hideModal('modal-cont');
+
+        if ($('#cal-new-hist-modal :visible')) {
+            $('.calendar-container').createCalendar();
+            hideModal('cal-new-hist-modal');
+            registerDragAndDrop();
+        }
+        else {
+            $('#history-container').empty().append(partialView);
+            hideModal('modal-cont');
+        }
+
+
     }).error(function (xhr, textStatus, error) {
         console.log(xhr.statusText);
         console.log(textStatus);
         console.log(error);
     });
+}
+
+function getMonday(d) {
+    d = new Date(d);
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+    return new Date(d.setDate(diff));
+}
+
+function convertCSDate(input) {
+    return new Date(parseInt(input.replace("/Date(", "").replace(")/", ""), 10));
+}
+
+function getDateString(input) {
+    return addZero(input.getDate()) + '/' + addZero(input.getMonth() + 1) + '/' + input.getFullYear() + ' ' + addZero(input.getHours()) + ':' + addZero(input.getMinutes()) + ':' + addZero(input.getMilliseconds());
+}
+
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
 }

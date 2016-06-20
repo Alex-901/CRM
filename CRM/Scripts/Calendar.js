@@ -37,20 +37,35 @@ month[11] = "December";
 
         var currentRow = 0;
         var day = new Date(firstDayOfCalendar);
+
+        //TODO Convert this to a view
         var calendar =
-              "<div class='calendar-header tableDiv'>"
+          "<div class='calendar-header tableDiv'>"
             + "<div class='tableDivRow'>"
-            + "<div class='tableDivCell'>"
-            + "<i onclick=\"navCal('" + currentMonth + "', '" + currentYear + "', 'left')\" class='fa fa-arrow-circle-left fa-fw' aria-hidden='true'></i>"
+                + "<div class='tableDivCell'>"
+                + "</div>"
+                + "<div class='tableDivCell'>"
+                    + "<div class='calendar-header-inner tableDiv'>"
+                        + "<div class='tableDivRow'>"
+                            + "<div class='tableDivCell clickable'>"
+                                + "<i onclick=\"navCal('" + currentMonth + "', '" + currentYear + "', 'left')\" class='fa fa-arrow-circle-left fa-fw' aria-hidden='true'></i>"
+                            + "</div>"
+                            + "<div class='tableDivCell clickable' onclick=\"showModal('date-selection')\">"
+                                + month[currentMonth] + " - " + currentYear
+                            + "</div>"
+                            + "<div class='tableDivCell clickable'>"
+                                + "<i onclick=\"navCal('" + currentMonth + "', '" + currentYear + "', 'right')\" class='fa fa-arrow-circle-right fa-fw' aria-hidden='true'></i>"
+                            + "</div>"
+                        + "</div>"
+                    + "</div>"
+                + "</div>"
+                + "<div id='cal-drag-cont' class='tableDivCell' title='Drag to a date to create new item'>"
+                    + "<i class='fa fa-plus-circle draggable clickable' aria-hidden='true'></i>"
+                + "</div>"
+
             + "</div>"
-            + "<div class='tableDivCell' onclick=\"showModal('date-selection')\">"
-            + month[currentMonth] + " - " + currentYear
-            + "</div>"
-            + "<div class='tableDivCell'>"
-            + "<i onclick=\"navCal('" + currentMonth + "', '" + currentYear + "', 'right')\" class='fa fa-arrow-circle-right fa-fw' aria-hidden='true'></i>"
-            + "</div>"
-            + "</div>"
-            + "</div><table>";
+        + "</div>"
+        + "<table>";
 
         while (currentRow <= maxRows) {
 
@@ -69,14 +84,15 @@ month[11] = "December";
 
             while (currentColumn <= maxCols) {
 
-                calendar += day >= calendarActualStart && day <= calendarActualEnd ? "<td>" : "<td class='outside-month'>";
+                calendar += day >= calendarActualStart && day <= calendarActualEnd ? "<td class='dropable'>" : "<td class='outside-month'>";
+                calendar += "<div id='divActualDate' class='hideMe'>" + day.toString() + "</div>";
                 calendar += "<div id='date-cont'>" + day.getDate().toString() + "</div>";
 
                 for (var i = 0; i < data.length; i++) {
                     var dateCheck = new Date(parseInt(data[i].CreationDate.replace("/Date(", "").replace(")/", ""), 10));
 
                     if (dateCheck.setHours(0, 0, 0, 0) == day.setHours(0, 0, 0, 0)) {
-                        calendar += "<div id='cal-inner-cont' onclick='showCalendarPopup(" + data[i].Id.toString() + ")'>" + data[i].Contact.Forename.toString() + " - " + data[i].Notes.toString() + "</div>";
+                        calendar += "<div id='cal-inner-cont' onclick='showCalendarPopup(" + data[i].Id.toString() + ")'>" + data[i].Agency.Name.toString() + " - " + data[i].Contact.Forename.toString() + " - " + data[i].Notes.toString() + "</div>";
                     }
                 }
 
@@ -94,6 +110,8 @@ month[11] = "December";
 
         this.empty();
         this.append(calendar);
+
+
 
         return this;
     };
@@ -126,26 +144,12 @@ function getHistoryData(date) {
     return retVal;
 }
 
-function getMonday(d) {
-    d = new Date(d);
-    var day = d.getDay(),
-        diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-    return new Date(d.setDate(diff));
-}
-
-function convertCSDate(input) {
-    return new Date(parseInt(input.replace("/Date(", "").replace(")/", ""), 10));
-}
-
-function getDateString(input) {
-    return input.getDate() + '/' + input.getMonth() + '/' + input.getFullYear() + ' - ' + input.getHours() + ':' + input.getMinutes();
-}
-
 function showCalendarPopup(id) {
     var monthData = JSON.parse($('#month-data-container').val());
 
     for (var i = 0; i < monthData.length; i++) {
         if (monthData[i].Id == id) {
+            $('#calendar-detail').find('#agency').html(monthData[i].Agency.Name);
             $('#calendar-detail').find('#date').html(getDateString(convertCSDate(monthData[i].CreationDate)));
             $('#calendar-detail').find('#contact').html(monthData[i].Contact.Forename + ' ' + monthData[i].Contact.Surname);
             $('#calendar-detail').find('#note').html(monthData[i].Notes);
@@ -170,4 +174,125 @@ function navCal(currentMonth, currentYear, direction) {
     }
 
     $('.calendar-container').createCalendar({ date: nextDate });
+    registerDragAndDrop();
 }
+
+function getHistoryData(date) {
+    var retVal = {};
+
+    var data = {
+        'date': date,
+        'agencyId': 0
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Agency/LoadCalendarHistoryItems",
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        async: false
+    }).success(function (items) {
+        retVal = items;
+        $('#month-data-container').val(JSON.stringify(items));
+    }).error(function (xhr, textStatus, error) {
+        console.log(xhr.statusText);
+        console.log(textStatus);
+        console.log(error);
+    });
+
+    return retVal;
+}
+
+function addHistoryItemCalendar() {
+
+    $.ajax({
+        type: "POST",
+        url: "/Agency/AddHistoryItem",
+        data: { 'agencyId': 0 },
+        async: false,
+        beforeSend: function () {
+            $('#add-history-container').addClass('loading-image');
+        }
+    }).success(function (partialView) {
+        $('#add-history-container').empty().append(partialView);
+        $('#add-history-container').find('#divAgencySelect').removeClass('hideMe');
+        $('#add-history-container').removeClass('loading-image');
+    }).error(function (xhr, textStatus, error) {
+        console.log(xhr.statusText);
+        console.log(textStatus);
+        console.log(error);
+    });
+}
+
+function loadContacts() {
+
+    $.ajax({
+        type: "POST",
+        url: "/Agency/AddHistoryItem",
+        data: { 'agencyId': 0 },
+        async: false
+    }).success(function (partialView) {
+        $('#add-history-container').empty().append(partialView);
+    }).error(function (xhr, textStatus, error) {
+        console.log(xhr.statusText);
+        console.log(textStatus);
+        console.log(error);
+    });
+}
+
+function agencySelectChanged() {
+
+    var select = $('#add-history-container').find('#Agencies option:selected');
+    var agencyId = select.val();
+    if (!agencyId > 0)
+    { return }
+
+    $.ajax({
+        type: "POST",
+        url: "/Agency/LoadContactsByAgency",
+        data: { 'agencyId': agencyId },
+        async: false
+    }).success(function (data) {
+
+        $.each(data, function (i) {
+
+            var optionhtml = '<option value="' +
+            data[i].ContactDetailId + '">' + data[i].Forename + '</option>';
+
+            var target = $('#add-history-container').find('#ContactDetails').empty().append(optionhtml);
+        });
+
+    }).error(function (xhr, textStatus, error) {
+        console.log(xhr.statusText);
+        console.log(textStatus);
+        console.log(error);
+    });
+
+}
+
+function registerDragAndDrop() {
+
+    $(".draggable").data({
+        'originalLeft': $(".draggable").css('left'),
+        'origionalTop': $(".draggable").css('top')
+    }).draggable(
+        {
+            containment: 'document',
+            stop: function (event, ui) {
+                $(this).css({
+                    'left': $(".draggable").data('originalLeft'),
+                    'top': $(".draggable").data('origionalTop')
+                });
+            }
+        });
+
+    $(".dropable").droppable({
+        hoverClass: 'drop-hover',
+        drop: function (event, ui) {
+            showModal('cal-new-hist-modal');
+            addHistoryItemCalendar();
+            $('#cal-new-hist-modal').find('#CreationDate').val(getDateString(new Date($(this).find('#divActualDate').html().toString())));
+        }
+    });
+}
+

@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 
 namespace CRMEntities
 {
-    public class HistoryItem
+    public class HistoryItem : Base
     {
         public int Id { get; set; }
         public Contact Contact { get; set; } = new Contact();
         [Required]
         [DataType(DataType.MultilineText)]
         public string Notes { get; set; } = string.Empty;
-        public DateTime CreationDate { get; set; } = new DateTime();
+        public DateTime CreationDate { get; set; } = new DateTime(1800, 01, 01);
         public int ParentId { get; set; }
-        [Required]
-        public List<Contact> Contacts { get; set; } = new List<Contact>();
+        public Agency Agency { get; set; } = new Agency();
     }
 }

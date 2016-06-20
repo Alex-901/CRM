@@ -8,11 +8,10 @@ using System.ComponentModel;
 
 namespace CRMEntities
 {
-    public class Agency
+    public class Agency : Base
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Contact> Contacts { get; set; } = new List<Contact>();
         public Contact NewContact { get; set; } = new Contact();
         public List<HistoryItem> HistoryItems { get; set; } = new List<HistoryItem>();
     }

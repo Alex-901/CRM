@@ -1,26 +1,52 @@
-﻿.calendar-container {
+﻿.drop-hover {
+    background-color: #ffffff !important;
+}
+
+.draggable{
+    z-index:9999;
+}
+
+.calendar-container {
     width: 100%;
     padding: 10px;
 }
-
     .calendar-container .calendar-header {
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+        width: 100%;
+    }
+    .calendar-container .calendar-header .tableDivCell:first-of-type {
+            width: 33%;
+        }
+
+        .calendar-container .calendar-header .tableDivCell {
+            width: 33%;
+        }
+
+            .calendar-container .calendar-header .tableDivCell:last-of-type {
+                width: 33%;
+                text-align:right;
+            }
+
+
+    .calendar-container .calendar-header-inner {
         text-align: center;
         font-weight: bold;
         font-size: 20px;
         width: 250px;
         margin: 0 auto;
-        cursor: pointer;
     }
 
-        .calendar-container .calendar-header .tableDivCell:first-of-type {
+        .calendar-container .calendar-header-inner .tableDivCell:first-of-type {
             width: 10%;
         }
 
-        .calendar-container .calendar-header .tableDivCell {
+        .calendar-container .calendar-header-inner .tableDivCell {
             width: 80%;
         }
 
-            .calendar-container .calendar-header .tableDivCell:last-of-type {
+            .calendar-container .calendar-header-inner .tableDivCell:last-of-type {
                 width: 10%;
             }
 
@@ -40,11 +66,11 @@
     }
 
         .calendar-container th:first-of-type {
-            border-left: 1px solid #5a8f00;
+            border-left: 1px solid #333333;
         }
 
         .calendar-container th:last-of-type {
-            border-right: 1px solid #5a8f00;
+            border-right: 1px solid #333333;
         }
 
     .calendar-container td {
