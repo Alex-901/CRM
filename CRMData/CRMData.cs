@@ -7,6 +7,7 @@ using CRMEntities;
 using System.Data;
 using System.Data.SqlClient;
 using CRMEngine;
+using System.Data.Entity;
 
 namespace CRMData
 {
@@ -52,28 +53,14 @@ namespace CRMData
 
         public List<Agency> LoadAgencys()
         {
-            var Agencys = new List<Agency>();
-
-            using (var conn = new SqlConnection(_connString))
+            using (var ctx = new DBContext())
             {
-                conn.Open();
-
-                using (var cmd = new SqlCommand(Constants.StoredProcedures.LoadAgencies, conn) { CommandType = CommandType.StoredProcedure })
-                {
-                    var dr = cmd.ExecuteReader();
-
-                    while (dr.Read())
-                    {
-                        Agencys.Add(new Agency
-                        {
-                            Id = int.Parse(dr["AG_Id"].ToString()),
-                            Name = dr["AG_Name"].ToString()
-                        });
-                    }
-                }
+                return new List<Agency>(ctx.tb_Agencies
+                    .Where(x => !x.Deleted)
+                    .Include(y => y.lt_ContactDetail
+                    .Select(z => z.tb_ContactDetails))
+                    .ToList());
             }
-
-            return Agencys;
         }
 
         public List<HistoryItem> LoadHistoryItems(int agency_Id, DateTime date)
@@ -98,7 +85,7 @@ namespace CRMData
                             Id = int.Parse(dr["HI_Id"].ToString()),
                             CreationDate = DateTime.Parse(dr["HI_CreationDate"].ToString()),
                             Notes = dr["HI_Note"].ToString(),
-                            Contact = new Contact
+                            ContactDetails = new ContactDetails
                             {
                                 ContactDetailId = int.Parse(dr["CD_Id"].ToString()),
                                 Forename = dr["CD_Forname"].ToString(),
@@ -126,7 +113,7 @@ namespace CRMData
                 {
                     cmd.Parameters.Add(new SqlParameter("@AG_Id", historyItem.ParentId));
                     cmd.Parameters.Add(new SqlParameter("@HI_Id", historyItem.Id));
-                    cmd.Parameters.Add(new SqlParameter("@CD_Id", historyItem.Contact.ContactDetailId));
+                    cmd.Parameters.Add(new SqlParameter("@CD_Id", historyItem.ContactDetails.ContactDetailId));
                     cmd.Parameters.Add(new SqlParameter("@HI_Note", historyItem.Notes));
                     cmd.Parameters.Add(new SqlParameter("@HI_CreationDate", historyItem.CreationDate));
 
@@ -150,7 +137,7 @@ namespace CRMData
             }
         }
 
-        public void SaveContactDetail(Contact contact)
+        public void SaveContactDetail(ContactDetails contact)
         {
             using (var conn = new SqlConnection(_connString))
             {
@@ -171,9 +158,9 @@ namespace CRMData
             }
         }
 
-        public List<Contact> LoadContactDetails(Constants.Enums.ContactDetailType type, int entityId)
+        public List<ContactDetails> LoadContactDetails(Constants.Enums.ContactDetailType type, int entityId)
         {
-            var contacts = new List<Contact>();
+            var contacts = new List<ContactDetails>();
 
             using (var conn = new SqlConnection(_connString))
             {
@@ -188,7 +175,7 @@ namespace CRMData
 
                     while (dr.Read())
                     {
-                        contacts.Add(new Contact
+                        contacts.Add(new ContactDetails
                         {
                             ContactDetailId = int.Parse(dr["LCD_CD_Id"].ToString()),
                             EntityId = int.Parse(dr["LCD_Entity_Id"].ToString()),

@@ -62,7 +62,7 @@ textarea {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 2; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -317,6 +317,21 @@ textarea {
         border-color: transparent #fff;
     }
 
+.app-error-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 350px;
+    height: 100px;
+    border: 1px solid #4d4d4d;
+    background-color: #8c8c8c;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    z-index: 1;
+}
 
-
-
+    .app-error-container > div {
+        padding: 10px;
+        color: white;
+    }

@@ -39,13 +39,14 @@ function removeAgency(clientId) {
 
     $.ajax({
         type: "GET",
-        url: "/Agency/Delete",
+        url: AppPath + "/Agency/Delete",
         data: { id: clientId }
     }).done(function () {
         hideModal('deleteConf');
         window.location.reload(true);
+        showMessagePopup('Saved!');
     }).error(function () {
-        alert(Error.toString());
+        showErrorPopup(Error.toString());
     });
 }
 
@@ -85,15 +86,15 @@ function saveAgencyContact() {
 
     $.ajax({
         type: "POST",
-        url: "/Agency/SaveContact",
+        url: AppPath + "Agency/SaveContact",
         contentType: 'application/json',
         data: JSON.stringify(data)
     }).success(function (partialView) {
         $('#agency-contact-container').empty().append(partialView);
         hideModal('NewContact');
+        showMessagePopup('Saved!');
     }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
+        showErrorPopup(xhr.responseText);
         console.log(error);
     });
 }
@@ -102,14 +103,13 @@ function loadContactDetail(contactId, agencyId) {
 
     $.ajax({
         type: "POST",
-        url: "/Agency/LoadContact",
+        url: AppPath + "Agency/LoadContact",
         data: { 'contactId': contactId, 'agencyId': agencyId }
     }).success(function (partialView) {
         $('#contact-cont').empty().append(partialView);
         showModal('NewContact');
     }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
+        showErrorPopup(xhr.responseText);
         console.log(error);
     });
 }
@@ -118,7 +118,7 @@ function loadAllContacts(agencyId) {
 
     $.ajax({
         type: "POST",
-        url: "/Agency/LoadContacts",
+        url: AppPath + "Agency/LoadContacts",
         data: { 'agencyId': agencyId },
         beforeSend: function () {
             $('#agency-contact-container').addClass('loading-image');
@@ -128,8 +128,7 @@ function loadAllContacts(agencyId) {
         initDeleteDialog();
         $('#agency-contact-container').removeClass('loading-image');
     }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
+        showErrorPopup(xhr.responseText);
         console.log(error);
         $('#agency-contact-container').removeClass('loading-image');
     });
@@ -138,14 +137,13 @@ function loadAllContacts(agencyId) {
 function deleteContact(contactId, agencyId) {
     $.ajax({
         type: "POST",
-        url: "/Agency/DeleteContact",
+        url: AppPath + "Agency/DeleteContact",
         data: { 'contactId': contactId, 'agencyId': agencyId }
     }).success(function (partialView) {
         $('#agency-contact-container').empty().append(partialView);
         initDeleteDialog();
     }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
+        showErrorPopup(xhr.responseText);
         console.log(error);
     });
 
@@ -192,7 +190,7 @@ function loadHistoryItems() {
 
     $.ajax({
         type: "POST",
-        url: "/Agency/LoadHistoryItems",
+        url: AppPath + "Agency/LoadHistoryItems",
         data: { 'agencyId': $('#Id').val() },
         beforeSend: function () {
             $('#history-container').addClass('loading-image');
@@ -201,8 +199,7 @@ function loadHistoryItems() {
         $('#history-container').empty().append(partialView);
         $('#history-container').removeClass('loading-image');
     }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
+        showErrorPopup(xhr.responseText);
         console.log(error);
         $('#history-container').removeClass('loading-image');
     });
@@ -212,35 +209,34 @@ function addHistoryItem() {
 
     $.ajax({
         type: "POST",
-        url: "/Agency/AddHistoryItem",
+        url: AppPath + "Agency/AddHistoryItem",
         data: { 'agencyId': $('#Id').val() }
     }).success(function (partialView) {
         $('#add-history-container').empty().append(partialView);
 
         $('#add-history-container').find('#Agencies').val($('#Id').val())
     }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
+        showErrorPopup(xhr.responseText);
         console.log(error);
     });
 }
 
 function saveHistoryItem() {
 
-    var contact = {
+    var contactDetails = {
         'ContactDetailId': $('#add-history-container').find('#ContactDetails option:selected').val()
     };
 
     var data = {
         'Notes': $('#add-history-container').find('#Notes').val(),
-        'contact': contact,
+        'ContactDetails': contactDetails,
         'ParentId': $('#add-history-container').find('#Agencies option:selected').val(),
         'CreationDate': $('#add-history-container').find('#CreationDate').val(),
     };
 
     $.ajax({
         type: "POST",
-        url: "/Agency/SaveHistoryItem",
+        url: AppPath + "Agency/SaveHistoryItem",
         contentType: 'application/json',
         data: JSON.stringify(data)
     }).success(function (partialView) {
@@ -255,10 +251,9 @@ function saveHistoryItem() {
             hideModal('modal-cont');
         }
 
-
+        showMessagePopup('Saved!');
     }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
+        showErrorPopup(xhr.responseText);
         console.log(error);
     });
 }
@@ -284,3 +279,17 @@ function addZero(i) {
     }
     return i;
 }
+
+function showErrorPopup(errorText) {
+
+    errorText = errorText.match(/<title>(.+?)<\/title>/);
+    
+    $('#app-error-container > div').empty().html('<b>Whoops an error has occured!</b></br>' + errorText);
+    $('#app-error-container').show().delay(10000).fadeOut();
+}
+
+function showMessagePopup(errorText) {
+    $('#app-error-container > div').empty().html(errorText);
+    $('#app-error-container').show().delay(10000).fadeOut();
+}
+

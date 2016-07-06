@@ -4,11 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - CRM</title>
+    <script type="text/javascript">
+        var AppPath = '@Url.Content("~/")'
+    </script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/Scripts/jquery-1.10.2.js")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
 </head>
 <body>
     <div class="crm-sub-list">
@@ -36,6 +40,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="app-error-container" class="app-error-container hideMe">
+        <div>
         </div>
     </div>
 </body>

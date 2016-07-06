@@ -30,9 +30,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,10 +53,40 @@
   <ItemGroup>
     <Compile Include="Agency.cs" />
     <Compile Include="Base.cs" />
-    <Compile Include="Contact.cs" />
     <Compile Include="ContactDetails.cs" />
+    <Compile Include="EntityModels\CRMModels.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRMModels.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModels\CRMModels.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRMModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModels\CRMModels.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRMModels.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModels\lt_AgencyHistoryItems.cs">
+      <DependentUpon>CRMModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModels\lt_ContactDetail.cs">
+      <DependentUpon>CRMModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModels\tb_Agencies.cs">
+      <DependentUpon>CRMModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModels\tb_ContactDetails.cs">
+      <DependentUpon>CRMModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModels\tb_HistoryItems.cs">
+      <DependentUpon>CRMModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="HistoryItem.cs" />
     <Compile Include="Home.cs" />
+    <Compile Include="lt_ContactDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +94,32 @@
       <Project>{ae05a100-322e-4408-81f0-ce6c4fbf693b}</Project>
       <Name>CRMEngine</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="EntityModels\CRMModels.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CRMModels.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="EntityModels\CRMModels.edmx.diagram">
+      <DependentUpon>CRMModels.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EntityModels\CRMModels.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CRMModels.edmx</DependentUpon>
+      <LastGenOutput>CRMModels.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EntityModels\CRMModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CRMModels.edmx</DependentUpon>
+      <LastGenOutput>CRMModels.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

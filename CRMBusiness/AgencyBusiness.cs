@@ -26,9 +26,9 @@ namespace CRMBusiness
 
         public List<Agency> LoadAgencys() => new CRMData.CRMData(ConfigurationManager.ConnectionStrings["CRMConn"].ConnectionString).LoadAgencys();
 
-        public void SaveContactDetail(Contact contact) => new CRMData.CRMData(ConfigurationManager.ConnectionStrings["CRMConn"].ConnectionString).SaveContactDetail(contact);
+        public void SaveContactDetail(ContactDetails contact) => new CRMData.CRMData(ConfigurationManager.ConnectionStrings["CRMConn"].ConnectionString).SaveContactDetail(contact);
 
-        public List<Contact> LoadContactDetails(Constants.Enums.ContactDetailType type, int entityId) => new CRMData.CRMData(ConfigurationManager.ConnectionStrings["CRMConn"].ConnectionString).LoadContactDetails(type, entityId);
+        public List<ContactDetails> LoadContactDetails(Constants.Enums.ContactDetailType type, int entityId) => new CRMData.CRMData(ConfigurationManager.ConnectionStrings["CRMConn"].ConnectionString).LoadContactDetails(type, entityId);
 
         public Agency LoadAgency(int Id)
         {

@@ -10,7 +10,7 @@ namespace CRMEntities
     public class HistoryItem : Base
     {
         public int Id { get; set; }
-        public Contact Contact { get; set; } = new Contact();
+        public ContactDetails ContactDetails { get; set; } = new ContactDetails();
         [Required]
         [DataType(DataType.MultilineText)]
         public string Notes { get; set; } = string.Empty;

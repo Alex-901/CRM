@@ -92,7 +92,7 @@ month[11] = "December";
                     var dateCheck = new Date(parseInt(data[i].CreationDate.replace("/Date(", "").replace(")/", ""), 10));
 
                     if (dateCheck.setHours(0, 0, 0, 0) == day.setHours(0, 0, 0, 0)) {
-                        calendar += "<div id='cal-inner-cont' onclick='showCalendarPopup(" + data[i].Id.toString() + ")'>" + data[i].Agency.Name.toString() + " - " + data[i].Contact.Forename.toString() + " - " + data[i].Notes.toString() + "</div>";
+                        calendar += "<div id='cal-inner-cont' onclick='showCalendarPopup(" + data[i].Id.toString() + ")'>" + data[i].Agency.Name.toString() + " - " + data[i].ContactDetails.Forename.toString() + " - " + data[i].Notes.toString() + "</div>";
                     }
                 }
 
@@ -117,7 +117,6 @@ month[11] = "December";
     };
 }(jQuery));
 
-
 function getHistoryData(date) {
     var retVal = {};
 
@@ -128,7 +127,7 @@ function getHistoryData(date) {
 
     $.ajax({
         type: "POST",
-        url: "/Agency/LoadCalendarHistoryItems",
+        url: AppPath + "Agency/LoadCalendarHistoryItems",
         contentType: 'application/json',
         data: JSON.stringify(data),
         async: false
@@ -136,8 +135,7 @@ function getHistoryData(date) {
         retVal = items;
         $('#month-data-container').val(JSON.stringify(items));
     }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
+        showErrorPopup(xhr.responseText);
         console.log(error);
     });
 
@@ -151,7 +149,7 @@ function showCalendarPopup(id) {
         if (monthData[i].Id == id) {
             $('#calendar-detail').find('#agency').html(monthData[i].Agency.Name);
             $('#calendar-detail').find('#date').html(getDateString(convertCSDate(monthData[i].CreationDate)));
-            $('#calendar-detail').find('#contact').html(monthData[i].Contact.Forename + ' ' + monthData[i].Contact.Surname);
+            $('#calendar-detail').find('#contact').html(monthData[i].ContactDetails.Forename + ' ' + monthData[i].ContactDetails.Surname);
             $('#calendar-detail').find('#note').html(monthData[i].Notes);
         }
     }
@@ -177,37 +175,11 @@ function navCal(currentMonth, currentYear, direction) {
     registerDragAndDrop();
 }
 
-function getHistoryData(date) {
-    var retVal = {};
-
-    var data = {
-        'date': date,
-        'agencyId': 0
-    };
-
-    $.ajax({
-        type: "POST",
-        url: "/Agency/LoadCalendarHistoryItems",
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-        async: false
-    }).success(function (items) {
-        retVal = items;
-        $('#month-data-container').val(JSON.stringify(items));
-    }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
-        console.log(error);
-    });
-
-    return retVal;
-}
-
 function addHistoryItemCalendar() {
 
     $.ajax({
         type: "POST",
-        url: "/Agency/AddHistoryItem",
+        url: AppPath + "Agency/AddHistoryItem",
         data: { 'agencyId': 0 },
         async: false,
         beforeSend: function () {
@@ -218,8 +190,7 @@ function addHistoryItemCalendar() {
         $('#add-history-container').find('#divAgencySelect').removeClass('hideMe');
         $('#add-history-container').removeClass('loading-image');
     }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
+        showErrorPopup(xhr.responseText);
         console.log(error);
     });
 }
@@ -228,14 +199,13 @@ function loadContacts() {
 
     $.ajax({
         type: "POST",
-        url: "/Agency/AddHistoryItem",
+        url: AppPath + "Agency/AddHistoryItem",
         data: { 'agencyId': 0 },
         async: false
     }).success(function (partialView) {
         $('#add-history-container').empty().append(partialView);
     }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
+        showErrorPopup(xhr.responseText);
         console.log(error);
     });
 }
@@ -249,22 +219,21 @@ function agencySelectChanged() {
 
     $.ajax({
         type: "POST",
-        url: "/Agency/LoadContactsByAgency",
+        url: AppPath + "Agency/LoadContactsByAgency",
         data: { 'agencyId': agencyId },
         async: false
     }).success(function (data) {
 
+        var target = $('#add-history-container').find('#ContactDetails');
+        target.empty();
+
         $.each(data, function (i) {
-
-            var optionhtml = '<option value="' +
-            data[i].ContactDetailId + '">' + data[i].Forename + '</option>';
-
-            var target = $('#add-history-container').find('#ContactDetails').empty().append(optionhtml);
+            var optionhtml = '<option value="' + data[i].ContactDetailId + '">' + data[i].Forename + '</option>';
+            target.append(optionhtml);
         });
 
     }).error(function (xhr, textStatus, error) {
-        console.log(xhr.statusText);
-        console.log(textStatus);
+        showErrorPopup(xhr.responseText);
         console.log(error);
     });
 
